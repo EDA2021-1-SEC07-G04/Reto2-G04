@@ -43,8 +43,9 @@ def startData(catalog):
     Carga los datos de los archivos y cargar los datos en la
     estructura de datos
     """
-    loadVideos(catalog)
+    
     loadCategorias(catalog)
+    loadVideos(catalog)
     
 
 def loadVideos(catalog):

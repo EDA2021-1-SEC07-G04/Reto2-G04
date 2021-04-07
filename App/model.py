@@ -39,31 +39,54 @@ los mismos.
 
 # Construccion de modelos
 def CatalNuevo():
-    catalog={"videos": None,"categorias":None}
-    catalog["videos"]=lt.newList("ARRAY_LIST")
-    catalog["categorias"]=lt.newList("ARRAY_LIST")
+catalog={
+       "videos":None,
+       "categories":None,
+       "years":None,
+       "country":None,
+      # "tags":None,                            
+       }
+ categcatalog=mp.newMap(30,70531,maptype="CHAINING",loadfactor=1.0,comparefunction=None)
+ catalog["videos"]=lt.newList('ARRAYLIST', compareBookIds)
+ catalog['categories'] = mp.newMap(50,70351,maptype='CHAINING',loadfactor=2.0,comparefunction=None)
+ catalog["years"]=mp.newMap(30,70531,maptype="CHAINING",loadfactor=2.0,comparefunction=None)
     return catalog
 
 # Funciones para agregar informacion al catalogo
 
 def addVideo(catalog, video):
-    lt.addLast(catalog['videos'], video)
-   
+#creo una lista vacia para meter dentro del mapa
+    lt.addLast(catalog["videos"],video)
+    videospercategory=lt.newList("ARRAYLIST")
+    #lt.addLast(catalog["videos"],video)
+    #reviso si existe  la categoria en el mapa
+    if mp.contains(catalog[categories],me.getValue(mp.get(categcatalog,video["category_id"]))) == False:
+        #agrego el video a la lista intermedia
+     lt.addLast(videospercategory,video)
+      #hago un deepcopy de la lista intermedia  para separarla de la lista original  y lo meto al mapa
+      #en este punto debería quedar la categoría creada como una llave-valor donde llave es la categoría
+      #y  valor es la lista copiada donde esta 1 video(el que creo la categoria)
+     mp.put(catalog['categories'], me.getValue(mp.get(categcatalog,video["category_id"])), copy.deepcopy(videospercategory))
+    else:
+        #ya que si existe la categoría,referencio la lista creada por deepcopy y le agrego el video
+     lt.addLast(me.getValue(mp.get(catalog["categories"],categcatalog[video['category_id'])),video)   
+
 def addCateg(catalog, categ):
     """
     Adiciona una categoria a la lista de categorias
     """
-    c = newCateg(categ['name'], categ['id'])
-    lt.addLast(catalog['categorias'], c)
+   # c = newCateg(categ['name'], categ['id'])
+    #lt.addLast(catalog['categorias'], c)
+    mp.put(categcatalog,categ["name"],categ["id"])
 
 
 
-def newCateg(name, id):
+def newCateg(name, Id):
     """
     Esta estructura almancena las categorias utilizadas para los videos.
     """
     categ = {}
-    categ[id] = name
+    categ[Id] = name
     #categ['name'] = name
     #categ['categ_id'] = id
     return categ

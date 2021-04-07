@@ -110,11 +110,8 @@ while True:
             if result2[1]["elements"][i]["country"] == pais and tagrequest  in result2[1]["elements"][i]["tags"] :
              print( print(result2[1]["elements"][i]["tags"],result2[1]["elements"][i]["title"],result2[1]["elements"][i]["channel_title"],result2[1]["elements"][i]["publish_time"],result2[1]["elements"][i]["views"],result2[1]["elements"][i]["likes"],result2[1]["elements"][i]["dislikes"]))
        # print(result[0])
-       # print(result[1]["elements"][0:2])
-       
-        tiposort=int(input("Indique 1 para shellsort,2 para insertionsort,3 para selectionsort, 4 para mergesort, 5 para quicksort."))
-        result=controller.videoSort(catalog,tamaño,tiposort)
-        print("mensaje de confirmacion")
+       # print(result[1]["elements"][0:2])     
+        
     else:
         sys.exit(0)
 sys.exit(0)
