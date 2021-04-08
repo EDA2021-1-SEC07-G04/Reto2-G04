@@ -36,19 +36,21 @@ def startCatalog():
     """
     catalog = model.CatalNuevo()
     return catalog
-
+def startCategIndex():
+    categcatalog=model.CategIndex()
+    return categcatalog
 # Funciones para la carga de datos
-def startData(catalog):
+def startData(catalog,categcatalog):
     """
     Carga los datos de los archivos y cargar los datos en la
     estructura de datos
     """
     
-    loadCategorias(catalog)
-    loadVideos(catalog)
+    loadCategorias(categcatalog)
+    loadVideos(catalog,categcatalog)
     
 
-def loadVideos(catalog):
+def loadVideos(catalog,categcatalog):
     """
     Carga los libros del archivo.  Por cada libro se toman sus autores y por
     cada uno de ellos, se crea en la lista de autores, a dicho autor y una
@@ -57,10 +59,10 @@ def loadVideos(catalog):
     videosfile = cf.data_dir + 'videos-large.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     for video in input_file:
-        model.addVideo(catalog, video)
+        model.addVideo(catalog, video,categcatalog)
 
 
-def loadCategorias(catalog):
+def loadCategorias(categcatalog):
     """
     Carga todas las categorias del archivo y las agrega a la lista de categorias
     """
@@ -68,7 +70,7 @@ def loadCategorias(catalog):
     input_file = csv.DictReader(open(categfile, encoding='utf-8'), delimiter='\t')
     for categ in input_file:
         #print(categ)
-        model.addCateg(catalog, categ)
+        model.addCateg(categcatalog, categ)
 
 
 # Funciones de ordenamiento

@@ -50,11 +50,15 @@ def initCatalog():
     """
     return controller.startCatalog()
 
+def initCategCat():
+
+    return controller.startCategIndex()    
+
 def loadData(catalog):
     """
     Carga los videos en la estructura de datos
     """
-    controller.startData(catalog)
+    controller.startData(catalog,categcatalog)
 """
 Menu principal
 """
@@ -64,6 +68,7 @@ while True:
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
         catalog=initCatalog()
+        categcatalog=initCategCat()
         loadData(catalog)
         print(lt.lastElement(catalog["videos"]))
         print('Videos cargados: ' + str(lt.size(catalog['videos'])))

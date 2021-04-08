@@ -24,7 +24,7 @@
  * Dario Correal - Version inicial
  """
 
-
+import copy as copy
 import config as cf
 from DISClib.ADT import list as lt
 from DISClib.ADT import map as mp
@@ -39,28 +39,26 @@ los mismos.
 
 # Construccion de modelos
 def CatalNuevo():
-catalog={
-       "videos":None,
-       "categories":None,
-       "years":None,
-       "country":None,
-      # "tags":None,                            
-       }
- categcatalog=mp.newMap(30,70531,maptype="CHAINING",loadfactor=1.0,comparefunction=None)
- catalog["videos"]=lt.newList('ARRAYLIST', compareBookIds)
+ catalog={"videos":None, "categories":None,"years":None,"country":None}                         
+         
+ catalog["videos"]=lt.newList('ARRAYLIST')
  catalog['categories'] = mp.newMap(50,70351,maptype='CHAINING',loadfactor=2.0,comparefunction=None)
  catalog["years"]=mp.newMap(30,70531,maptype="CHAINING",loadfactor=2.0,comparefunction=None)
-    return catalog
+ return catalog
+
+def CategIndex():
+ categcatalog=mp.newMap(30,70531,maptype="CHAINING",loadfactor=1.0,comparefunction=None)
+ return categcatalog
 
 # Funciones para agregar informacion al catalogo
 
-def addVideo(catalog, video):
+def addVideo(catalog, video,categcatalog):
 #creo una lista vacia para meter dentro del mapa
     lt.addLast(catalog["videos"],video)
     videospercategory=lt.newList("ARRAYLIST")
     #lt.addLast(catalog["videos"],video)
     #reviso si existe  la categoria en el mapa
-    if mp.contains(catalog[categories],me.getValue(mp.get(categcatalog,video["category_id"]))) == False:
+    if mp.contains(catalog["categories"],me.getValue(mp.get(categcatalog,video["category_id"]))) == False:
         #agrego el video a la lista intermedia
      lt.addLast(videospercategory,video)
       #hago un deepcopy de la lista intermedia  para separarla de la lista original  y lo meto al mapa
@@ -71,7 +69,7 @@ def addVideo(catalog, video):
         #ya que si existe la categoría,referencio la lista creada por deepcopy y le agrego el video
      lt.addLast(me.getValue(mp.get(catalog["categories"],categcatalog[video['category_id'])),video)   
 
-def addCateg(catalog, categ):
+def addCateg(categcatalog, categ):
     """
     Adiciona una categoria a la lista de categorias
     """
