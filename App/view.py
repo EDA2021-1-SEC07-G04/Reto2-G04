@@ -70,10 +70,11 @@ while True:
         catalog=initCatalog()
         categcatalog=initCategCat()
         loadData(catalog)
-        print(lt.lastElement(catalog["videos"]))
-        print('Videos cargados: ' + str(lt.size(catalog['videos'])))
-        print('Categorias cargadas: ' + str(lt.size(catalog['categorias'])))
-        print(catalog["categorias"])
+        print("mensaje de confirmacion")
+       # print(lt.lastElement(catalog["videos"]))
+      #  print('Videos cargados: ' + str(lt.size(catalog['videos'])))
+      #  print('Categorias cargadas: ' + str(lt.size(catalog['categorias'])))
+     #   print(catalog["categorias"])
         
     elif int(inputs[0]) == 2:
         tamaño=int(input("Indique el tamaño de la muestra a analizar"))

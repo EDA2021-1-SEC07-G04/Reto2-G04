@@ -67,7 +67,7 @@ def addVideo(catalog, video,categcatalog):
      mp.put(catalog['categories'], me.getValue(mp.get(categcatalog,video["category_id"])), copy.deepcopy(videospercategory))
     else:
         #ya que si existe la categoría,referencio la lista creada por deepcopy y le agrego el video
-     lt.addLast(me.getValue(mp.get(catalog["categories"],categcatalog[video['category_id'])),video)   
+     lt.addLast(me.getValue(mp.get(catalog["categories"],me.getValue(mp.get(categcatalog,video['category_id'])))),video)   
 
 def addCateg(categcatalog, categ):
     """
@@ -75,7 +75,7 @@ def addCateg(categcatalog, categ):
     """
    # c = newCateg(categ['name'], categ['id'])
     #lt.addLast(catalog['categorias'], c)
-    mp.put(categcatalog,categ["name"],categ["id"])
+    mp.put(categcatalog,categ["id"],categ["name"])
 
 
 
