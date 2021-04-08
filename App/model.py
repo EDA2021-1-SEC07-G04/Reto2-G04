@@ -42,12 +42,12 @@ def CatalNuevo():
  catalog={"videos":None, "categories":None,"years":None,"country":None}                         
          
  catalog["videos"]=lt.newList('ARRAYLIST')
- catalog['categories'] = mp.newMap(50,70351,maptype='CHAINING',loadfactor=2.0,comparefunction=None)
- catalog["years"]=mp.newMap(30,70531,maptype="CHAINING",loadfactor=2.0,comparefunction=None)
+ catalog['categories'] = mp.newMap(50,70351,maptype='PROBING',loadfactor=0.80,comparefunction=None)
+ catalog["years"]=mp.newMap(30,70531,maptype="PROBING",loadfactor=0.80,comparefunction=None)
  return catalog
 
 def CategIndex():
- categcatalog=mp.newMap(30,70531,maptype="CHAINING",loadfactor=1.0,comparefunction=None)
+ categcatalog=mp.newMap(30,70531,maptype="PROBING",loadfactor=0.80,comparefunction=None)
  return categcatalog
 
 # Funciones para agregar informacion al catalogo
