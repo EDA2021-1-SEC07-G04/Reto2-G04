@@ -59,6 +59,7 @@ def loadData(catalog,categcatalog):
     Carga los videos en la estructura de datos
     """
     controller.startData(catalog,categcatalog)
+
 """
 Menu principal
 """
@@ -69,12 +70,13 @@ while True:
         print("Cargando información de los archivos ....")
         catalog=initCatalog()
         categcatalog=initCategCat()
-        loadData(catalog,categcatalog)
+        answer=controller.startData(catalog,categcatalog)
         print("mensaje de confirmacion")
        # print(lt.lastElement(catalog["videos"]))
       #  print('Videos cargados: ' + str(lt.size(catalog['videos'])))
       #  print('Categorias cargadas: ' + str(lt.size(catalog['categorias'])))
-     #   print(catalog["categorias"])
+        print("Tiempo [ms]: ", answer[0], "  ||  ",
+              "Memoria [kB]: ", answer[1])
         
     elif int(inputs[0]) == 2:
         tamaño=int(input("Indique el tamaño de la muestra a analizar"))
