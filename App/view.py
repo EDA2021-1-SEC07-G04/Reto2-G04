@@ -54,7 +54,7 @@ def initCategCat():
 
     return controller.startCategIndex()    
 
-def loadData(catalog):
+def loadData(catalog,categcatalog):
     """
     Carga los videos en la estructura de datos
     """
@@ -69,7 +69,7 @@ while True:
         print("Cargando información de los archivos ....")
         catalog=initCatalog()
         categcatalog=initCategCat()
-        loadData(catalog)
+        loadData(catalog,categcatalog)
         print("mensaje de confirmacion")
        # print(lt.lastElement(catalog["videos"]))
       #  print('Videos cargados: ' + str(lt.size(catalog['videos'])))
