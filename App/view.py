@@ -75,9 +75,8 @@ while True:
        # print(lt.lastElement(catalog["videos"]))
       #  print('Videos cargados: ' + str(lt.size(catalog['videos'])))
       #  print('Categorias cargadas: ' + str(lt.size(catalog['categorias'])))
-     #   print(catalog["categorias"])
-        print("Tiempo [ms]: ", f"{answer[0]:.3f}", " || ",
-       "Memoria [kB]: ", f"{answer[1]:.3f}")
+        print("Tiempo [ms]: ", answer[0], "  ||  ",
+              "Memoria [kB]: ", answer[1])
         
     elif int(inputs[0]) == 2:
         tamaño=int(input("Indique el tamaño de la muestra a analizar"))

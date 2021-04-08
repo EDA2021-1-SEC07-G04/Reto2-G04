@@ -23,6 +23,8 @@
 import time
 import tracemalloc
 import config as cf
+import tracemalloc
+import time
 import model
 import csv
 #memory and time counters
@@ -90,6 +92,15 @@ def startData(catalog,categcatalog):
 
     loadCategorias(categcatalog)
     loadVideos(catalog,categcatalog)
+
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    return delta_time, delta_memory
+    
     
     stop_time = getTime()
     stop_memory = getMemory()
@@ -106,7 +117,7 @@ def loadVideos(catalog,categcatalog):
     cada uno de ellos, se crea en la lista de autores, a dicho autor y una
     referencia al libro que se esta procesando.
     """
-    videosfile = cf.data_dir + 'videos-large.csv'
+    videosfile = cf.data_dir + 'videos-small.csv'
     input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     for video in input_file:
         model.addVideo(catalog, video,categcatalog)
@@ -136,3 +147,32 @@ def trendingVideos(catalog, pais):
 # Funciones de consulta sobre el catálogo
 def tendenciaCateg(catalog, categ):
     return model.vidTendenciaCateg(catalog, categ)
+
+def getTime():
+    """
+    devuelve el instante tiempo de procesamiento en milisegundos
+    """
+    return float(time.perf_counter()*1000)
+
+
+def getMemory():
+    """
+    toma una muestra de la memoria alocada en instante de tiempo
+    """
+    return tracemalloc.take_snapshot()
+
+
+def deltaMemory(start_memory, stop_memory):
+    """
+    calcula la diferencia en memoria alocada del programa entre dos
+    instantes de tiempo y devuelve el resultado en bytes (ej.: 2100.0 B)
+    """
+    memory_diff = stop_memory.compare_to(start_memory, "filename")
+    delta_memory = 0.0
+
+    # suma de las diferencias en uso de memoria
+    for stat in memory_diff:
+        delta_memory = delta_memory + stat.size_diff
+    # de Byte -> kByte
+    delta_memory = delta_memory/1024.0
+    return delta_memory
