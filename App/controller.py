@@ -58,11 +58,6 @@ def deltaMemory(start_memory, stop_memory):
 
 
 
-
-
-
-
-
 """
 El controlador se encarga de mediar entre la vista y el modelo.
 """
@@ -118,7 +113,7 @@ def loadVideos(catalog,categcatalog):
     referencia al libro que se esta procesando.
     """
     videosfile = cf.data_dir + 'videos-small.csv'
-    input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
+    input_file = csv.DictReader(open("videos-small.csv", encoding='utf-8'))
     for video in input_file:
         model.addVideo(catalog, video,categcatalog)
 
@@ -128,7 +123,7 @@ def loadCategorias(categcatalog):
     Carga todas las categorias del archivo y las agrega a la lista de categorias
     """
     categfile = cf.data_dir + 'category-id.csv'
-    input_file = csv.DictReader(open(categfile, encoding='utf-8'), delimiter='\t')
+    input_file = csv.DictReader(open("category-id.csv", encoding='utf-8'), delimiter='\t')
     for categ in input_file:
         #print(categ)
         model.addCateg(categcatalog, categ)

@@ -41,13 +41,14 @@ los mismos.
 def CatalNuevo():
  catalog={"videos":None, "categories":None,"years":None,"country":None}                         
          
- catalog["videos"]=lt.newList('ARRAYLIST')
- catalog['categories'] = mp.newMap(50,70351,maptype='PROBING',loadfactor=0.80,comparefunction=None)
- catalog["years"]=mp.newMap(30,70531,maptype="PROBING",loadfactor=0.80,comparefunction=None)
+ catalog["videos"]=lt.newList('ARRAY_LIST')
+ catalog['categories'] = mp.newMap(400000,19,maptype='PROBING',loadfactor=0.80,comparefunction=None)
+ catalog["years"]=mp.newMap(10,19,maptype="PROBING",loadfactor=0.80,comparefunction=None)
+ catalog["countries"]=mp.newMap(10,19,maptype="PROBING",loadfactor=0.80,comparefunction=None)
  return catalog
 
 def CategIndex():
- categcatalog=mp.newMap(30,70531,maptype="PROBING",loadfactor=0.80,comparefunction=None)
+ categcatalog=mp.newMap(44,19,maptype="PROBING",loadfactor=0.80,comparefunction=None)
  return categcatalog
 
 # Funciones para agregar informacion al catalogo
@@ -55,7 +56,9 @@ def CategIndex():
 def addVideo(catalog, video,categcatalog):
 #creo una lista vacia para meter dentro del mapa
     lt.addLast(catalog["videos"],video)
-    videospercategory=lt.newList("ARRAYLIST")
+    videospercategory=lt.newList("ARRAY_LIST")
+    videospercountry=lt.newList("ARRAY_LIST")
+    
     #lt.addLast(catalog["videos"],video)
     #reviso si existe  la categoria en el mapa
     if mp.contains(catalog["categories"],me.getValue(mp.get(categcatalog,video["category_id"]))) == False:
@@ -68,7 +71,13 @@ def addVideo(catalog, video,categcatalog):
     else:
         #ya que si existe la categoría,referencio la lista creada por deepcopy y le agrego el video
      lt.addLast(me.getValue(mp.get(catalog["categories"],me.getValue(mp.get(categcatalog,video['category_id'])))),video)   
-
+    
+    if mp.contains(catalog["countries"],video["country"]) == False:
+        lt.addLast(videospercountry,video)
+        mp.put(catalog["countries"],video["country"],copy.deepcopy(videospercountry))
+    else:
+     lt.addLast(me.getValue(mp.get(catalog["countries"])),video)   
+        
 def addCateg(categcatalog, categ):
     """
     Adiciona una categoria a la lista de categorias
@@ -79,16 +88,9 @@ def addCateg(categcatalog, categ):
 
 
 
-def newCateg(name, Id):
-    """
-    Esta estructura almancena las categorias utilizadas para los videos.
-    """
-    categ = {}
-    categ[Id] = name
-    #categ['name'] = name
-    #categ['categ_id'] = id
-    return categ
+
 # Funciones de consulta
+
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 def cmpVideosByViews(video1, video2):
@@ -121,62 +123,24 @@ def sortVideos(catalog, size,checker):
      sorted_list = sa.sort(sub_list, cmpVideosByLikes)    
              
     return  sorted_list
+#contar dias
 
-def masDias(catalog,pais):
-    used=[]
-    counted=[]
-    videostitulos=[]
-    for i in range(0,lt.size(catalog["videos"])):
-     if catalog["videos"]["elements"][i]["country"] == pais:
-        
-              videostitulos.append(catalog["videos"]["elements"][i]["title"])
-    
-    for i in videostitulos:
-     if i not in used:  
-        used.append(i)   
-        trendingdays=videostitulos.count(i)    
-        counted.append(trendingdays)      
-    mastrending=max(counted)
-    alah=counted.index(mastrending)
-    correspondent=used[alah]
-    for i in range(0,lt.size(catalog["videos"])):
-        if catalog["videos"]["elements"][i]["title"] == correspondent:
-            titulocanal=catalog["videos"]["elements"][i]["channel_title"]
-    return correspondent,mastrending,titulocanal,pais
+def trendingdays(catalog,categ):
+    videosincateg=me.getValue(mp.get(catalog,categ))
+    titlesonly=[]
+    for i in range(0,lst.size(videosincateg)):
+        titlesonly.append(videosincateg[i]["title"])
+            
+    mostrepeated=max(titlesonly,key=videosincateg.count)
+    number=count(mostrepeated)
+    answer=(mostrepeated,number)
+    return answer
     
 
-def vidTendenciaCateg(catalog, categ):
-    #print(catalog['categorias'])
-    lista_trend = {}
-    lista_dias = []
-    categ_id = hallarID(catalog, categ)
-    info_video = []
-    for x in catalog["videos"]["elements"]:
-        if x["category_id"] == categ_id:
-            if x["video_id"] in lista_trend and x["video_id"] != "#NAME?":
-                lista_trend[x["video_id"]] += 1
-            else:
-                lista_trend[x["video_id"]] = 1
-    for x in lista_trend:
-        lista_dias.append(lista_trend[x])
-    for x in lista_trend:
-        if lista_trend[x] == max(lista_dias):
-            vid_id = x
-    for x in catalog["videos"]["elements"]:
-        if x["video_id"] == vid_id and x["title"] not in info_video:
-            info_video.append(x["title"])
-            info_video.append(x["channel_title"])
-            info_video.append(x["category_id"])
-            info_video.append(max(lista_dias))
-    return info_video
+
+
     
 
-def hallarID(catalog, categ):
-    categ_id = None
-    for x in catalog["categorias"]["elements"]:
-        for id in x:
-            if x[id] == (" "+categ):
-                categ_id = id
-    return categ_id
+
     
 
