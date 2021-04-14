@@ -89,8 +89,8 @@ while True:
                 print(result[1]["elements"][i]["trending_date"],result[1]["elements"][i]["title"],result[1]["elements"][i]["channel_title"],result[1]["elements"][i]["publish_time"],result[1]["elements"][i]["views"],result[1]["elements"][i]["likes"],result[1]["elements"][i]["dislikes"])
     elif int(inputs[0]) == 3:
       pais=input("seleccione un país a analizar")
-      sorteados=controller.trendingVideos(catalog,pais)
-      print(sorteados)
+      countryTendency=controller.trendingVideos(catalog,pais,2)
+      print(countryTendency)
     elif int(inputs[0]) == 4:
         category_name = input("Indique la categoría del video de mayor tendencia.")
         result=controller.tendenciaCateg(catalog, category_name)

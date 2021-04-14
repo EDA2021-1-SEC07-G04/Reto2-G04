@@ -39,7 +39,7 @@ los mismos.
 
 # Construccion de modelos
 def CatalNuevo():
- catalog={"videos":None, "categories":None,"years":None,"country":None}                         
+ catalog={"videos":None, "categories":None,"years":None,"countries":None}                         
          
  catalog["videos"]=lt.newList('ARRAY_LIST')
  catalog['categories'] = mp.newMap(400000,19,maptype='PROBING',loadfactor=0.80,comparefunction=None)
@@ -76,7 +76,7 @@ def addVideo(catalog, video,categcatalog):
         lt.addLast(videospercountry,video)
         mp.put(catalog["countries"],video["country"],copy.deepcopy(videospercountry))
     else:
-     lt.addLast(me.getValue(mp.get(catalog["countries"])),video)   
+     lt.addLast(me.getValue(mp.get(catalog["countries"],video["country"])),video)   
         
 def addCateg(categcatalog, categ):
     """
@@ -125,14 +125,18 @@ def sortVideos(catalog, size,checker):
     return  sorted_list
 #contar dias
 
-def trendingdays(catalog,categ):
-    videosincateg=me.getValue(mp.get(catalog,categ))
+def trendingdays(catalog,categ,checker):
+    if checker == 2:
+     videosincateg=me.getValue(mp.get(catalog["countries"],categ))
+    else:
+     videosincateg=me.getValue(mp.get(catalog["categories"],categ))
+    
     titlesonly=[]
-    for i in range(0,lst.size(videosincateg)):
-        titlesonly.append(videosincateg[i]["title"])
-            
-    mostrepeated=max(titlesonly,key=videosincateg.count)
-    number=count(mostrepeated)
+    for i in range(0,lt.size(videosincateg)):
+        titlesonly.append(videosincateg["elements"][i]["title"])
+   # print(titlesonly)        
+    mostrepeated=max(titlesonly,key=titlesonly.count)
+    number=titlesonly.count(mostrepeated)
     answer=(mostrepeated,number)
     return answer
     

@@ -113,7 +113,7 @@ def loadVideos(catalog,categcatalog):
     referencia al libro que se esta procesando.
     """
     videosfile = cf.data_dir + 'videos-small.csv'
-    input_file = csv.DictReader(open("videos-small.csv", encoding='utf-8'))
+    input_file = csv.DictReader(open("videos-large.csv", encoding='utf-8'))
     for video in input_file:
         model.addVideo(catalog, video,categcatalog)
 
@@ -137,8 +137,8 @@ def videoSort(catalog, size,tiposort):
     return model.sortVideos(catalog, size,tiposort)
 
 # Funciones de consulta sobre el catálogo}
-def trendingVideos(catalog, pais):
-    return model.masDias(catalog, pais)
+def trendingVideos(catalog, pais,checker):
+    return model.trendingdays(catalog,pais,checker)
 # Funciones de consulta sobre el catálogo
 def tendenciaCateg(catalog, categ):
     return model.vidTendenciaCateg(catalog, categ)
