@@ -27,6 +27,10 @@ import tracemalloc
 import time
 import model
 import csv
+import copy as copy
+from DISClib.ADT import list as lt
+from DISClib.ADT import map as mp
+from DISClib.DataStructures import mapentry as me
 #memory and time counters
 def getTime():
  """
@@ -113,7 +117,7 @@ def loadVideos(catalog,categcatalog):
     referencia al libro que se esta procesando.
     """
     videosfile = cf.data_dir + 'videos-small.csv'
-    input_file = csv.DictReader(open("videos-large.csv", encoding='utf-8'))
+    input_file = csv.DictReader(open("videos-small.csv", encoding='utf-8'))
     for video in input_file:
         model.addVideo(catalog, video,categcatalog)
 
@@ -130,18 +134,22 @@ def loadCategorias(categcatalog):
 
 
 # Funciones de ordenamiento
-def videoSort(catalog, size,tiposort):
+def videoSort(catalog,pais,categoria,checker):
     """
     Ordena los videos
     """
-    return model.sortVideos(catalog, size,tiposort)
+    if categoria!=None:
+     mergedCommon=model.listmerger(me.getValue(mp.get(catalog["countries"],pais)),me.getValue(mp.get(catalog["categories"],categoria)))
+    else:
+     mergedCommon=copy.copy(catalog)
+     #referencia sin  memoria extra
+    return model.sortVideos(mergedCommon,checker)
 
 # Funciones de consulta sobre el catálogo}
 def trendingVideos(catalog, pais,checker):
     return model.trendingdays(catalog,pais,checker)
 # Funciones de consulta sobre el catálogo
-def tendenciaCateg(catalog, categ):
-    return model.vidTendenciaCateg(catalog, categ)
+
 
 def getTime():
     """

@@ -40,8 +40,8 @@ def printMenu():
     print("2-Videos de mayor tendencia en un país segun la categoría ")
     print("3-Video de mayor duración como tendencia  según el país")
     print("4-Video de mayor duración como tendencia según la categoría")
-    print("5-Videos con mayor cantidad de likes según el país")
-    print("5-Videos con mayor cantidad de likes según categoría")
+    print("5-Videos con mayor cantidad de likes según su tag ")
+   
 
 
 def initCatalog():
@@ -83,42 +83,26 @@ while True:
         #tiposort=int(input("Indique 1 para shellsort,2 para insertionsort,3 para selectionsort"))
         pais=input("Introduzca un país a analizar")
         categoriaa=input("Introduzca el ID de una categoría a analizar")
-        result=controller.videoSort(catalog,tamaño,2)      
-        for i in range(0,len(result[1]["elements"])):
-            if result[1]["elements"][i]["country"] == pais and result[1]["elements"][i]["category_id"] == categoriaa:
-                print(result[1]["elements"][i]["trending_date"],result[1]["elements"][i]["title"],result[1]["elements"][i]["channel_title"],result[1]["elements"][i]["publish_time"],result[1]["elements"][i]["views"],result[1]["elements"][i]["likes"],result[1]["elements"][i]["dislikes"])
+        resultado=controller.videoSort(catalog,pais,categoriaa,2)
+        for i in range(0,tamaño):
+            print(resultado["elements"][i])
     elif int(inputs[0]) == 3:
       pais=input("seleccione un país a analizar")
       countryTendency=controller.trendingVideos(catalog,pais,2)
       print(countryTendency)
     elif int(inputs[0]) == 4:
         category_name = input("Indique la categoría del video de mayor tendencia.")
-        result=controller.tendenciaCateg(catalog, category_name)
-        print(result)
+        categoryTendency=controller.trendingVideos(catalog,category_name,6)
+        print(categoryTendency)
     elif int(inputs[0]) == 5:
         tamaño=int(input("Indique el tamaño de la muestra a analizar"))
         pais=input("Introduzca un país a analizar")
         tagrequest=input("Introduzca un tag a revisar")
-        result2=controller.videoSort(catalog,tamaño,3)
-        for i in range(0,len(result2[1]["elements"])):
-            if result2[1]["elements"][i]["country"] == pais and tagrequest  in result2[1]["elements"][i]["tags"] :
-             print( print(result2[1]["elements"][i]["tags"],result2[1]["elements"][i]["title"],result2[1]["elements"][i]["channel_title"],result2[1]["elements"][i]["publish_time"],result2[1]["elements"][i]["views"],result2[1]["elements"][i]["likes"],result2[1]["elements"][i]["dislikes"]))
-       # print(result[0])
-       # print(result[1]["elements"][0:2])
-       
-        tiposort=int(input("Indique 1 para shellsort,2 para insertionsort,3 para selectionsort, 4 para mergesort, 5 para quicksort."))
-        result=controller.videoSort(catalog,tamaño,tiposort)
-        print("mensaje de confirmacion")
-    elif int(inputs[0]) == 6:
-        tamaño=int(input("Indique el tamaño de la muestra a analizar"))
-        categoria=input("Introduzca una categoría a analizar")
-        tagrequest=input("Introduzca un tag a revisar")
-        result2=controller.videoSort(catalog,tamaño,3)
-        for i in range(0,len(result2[1]["elements"])):
-            if result2[1]["elements"][i]["country"] == pais and tagrequest  in result2[1]["elements"][i]["tags"] :
-             print( print(result2[1]["elements"][i]["tags"],result2[1]["elements"][i]["title"],result2[1]["elements"][i]["channel_title"],result2[1]["elements"][i]["publish_time"],result2[1]["elements"][i]["views"],result2[1]["elements"][i]["likes"],result2[1]["elements"][i]["dislikes"]))
-       # print(result[0])
-       # print(result[1]["elements"][0:2])     
+        result2=controller.videoSort(catalog,pais,None,3)
+        for i in range(0,tamaño):
+           if  tagrequest in result2["elements"][i]["tags"]: 
+            print(result2["elements"][i])
+    #falta que no sea caps sensitive
         
     else:
         sys.exit(0)

@@ -113,14 +113,12 @@ def cmpVideosByLikes(video1, video2):
 
 
 # Funciones de ordenamiento
-def sortVideos(catalog, size,checker):
-    sorted_list=[]
-    sub_list = lt.subList(catalog['videos'], 0, size)
-    sub_list = sub_list.copy()
+def sortVideos(mergedlist,checker):
+    sorted_list=[]    
     if checker == 2:
-     sorted_list = sa.sort(sub_list, cmpVideosByViews)
+     sorted_list = sa.sort(mergedlist, cmpVideosByViews)
     else:
-     sorted_list = sa.sort(sub_list, cmpVideosByLikes)    
+     sorted_list = sa.sort(mergedlist, cmpVideosByLikes)    
              
     return  sorted_list
 #contar dias
@@ -141,8 +139,15 @@ def trendingdays(catalog,categ,checker):
     return answer
     
 
+#funciones extra
 
-
+def listmerger(lt1,lt2):
+  #crea una lista con los elementos en comun de dos listas
+  mergedlist=lt.newList("ARRAY_LIST")  
+  for elem in lt1["elements"]:
+    if elem in lt1["elements"] and elem in lt2["elements"]:
+        lt.addLast(mergedlist,elem)
+  return mergedlist      
     
 
 
