@@ -111,10 +111,17 @@ def cmpVideosByLikes(video1, video2):
   x=False
   return x
 
+def compareTag(tag,video):
+    
+    if tag.upper() in video["tags"].upper():
+        x=True
+        return x
+    else:
+        x=False
+        return x
 
 # Funciones de ordenamiento
 def sortVideos(mergedlist,checker):
-    sorted_list=[]    
     if checker == 2:
      sorted_list = sa.sort(mergedlist, cmpVideosByViews)
     else:
@@ -150,6 +157,14 @@ def listmerger(lt1,lt2):
   return mergedlist      
     
 
+def tagfilter(result2, tag):    
+    filter_tags=lt.newList("ARRAY_LIST")
+    filter_tags["videos"]=lt.newList("ARRAY_LIST")
 
+    for video in lt.iterator(result2):
+     video_tags=video["tags"].upper()        
+     if tag.upper() in video_tags:
+         lt.addLast(filter_tags["videos"], video)               
+    return filter_tags
     
 

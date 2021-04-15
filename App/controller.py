@@ -116,8 +116,8 @@ def loadVideos(catalog,categcatalog):
     cada uno de ellos, se crea en la lista de autores, a dicho autor y una
     referencia al libro que se esta procesando.
     """
-    videosfile = cf.data_dir + 'videos-small.csv'
-    input_file = csv.DictReader(open("videos-small.csv", encoding='utf-8'))
+    videosfile = cf.data_dir + 'videos-large.csv'
+    input_file = csv.DictReader(open(videosfile, encoding='utf-8'))
     for video in input_file:
         model.addVideo(catalog, video,categcatalog)
 
@@ -127,7 +127,7 @@ def loadCategorias(categcatalog):
     Carga todas las categorias del archivo y las agrega a la lista de categorias
     """
     categfile = cf.data_dir + 'category-id.csv'
-    input_file = csv.DictReader(open("category-id.csv", encoding='utf-8'), delimiter='\t')
+    input_file = csv.DictReader(open(categfile, encoding='utf-8'), delimiter='\t')
     for categ in input_file:
         #print(categ)
         model.addCateg(categcatalog, categ)
@@ -140,14 +140,16 @@ def videoSort(catalog,pais,categoria,checker):
     """
     if categoria!=None:
      mergedCommon=model.listmerger(me.getValue(mp.get(catalog["countries"],pais)),me.getValue(mp.get(catalog["categories"],categoria)))
-    else:
-     mergedCommon=copy.copy(catalog)
-     #referencia sin  memoria extra
-    return model.sortVideos(mergedCommon,checker)
+     return model.sortVideos(mergedCommon,checker)
+    else:    
+     return model.sortVideos(me.getValue(mp.get(catalog["countries"],pais)),3)
 
 # Funciones de consulta sobre el catálogo}
 def trendingVideos(catalog, pais,checker):
     return model.trendingdays(catalog,pais,checker)
+def tagfiltering(lt, tag):
+    
+    return model.tagfilter(lt,tag)
 # Funciones de consulta sobre el catálogo
 
 
