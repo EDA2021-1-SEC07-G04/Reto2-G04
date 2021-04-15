@@ -134,6 +134,34 @@ def loadCategorias(categcatalog):
 
 
 # Funciones de ordenamiento
+def videoSortTime(catalog,pais,categoria,checker):
+    tracemalloc.start()
+    delta_time = -1.0
+    delta_memory = -1.0
+    # toma de tiempo y memoria al inicio del proceso
+    start_time = getTime()
+    start_memory = getMemory()
+
+    result = videoSort(catalog,pais,categoria,checker)
+
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    return result, delta_time, delta_memory
+    
+    
+    stop_time = getTime()
+    stop_memory = getMemory()
+    # finaliza el proceso para medir memoria
+    tracemalloc.stop()
+    # calculando la diferencia de tiempo y memoria
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    return result, delta_time, delta_memory
+
 def videoSort(catalog,pais,categoria,checker):
     """
     Ordena los videos
@@ -145,8 +173,38 @@ def videoSort(catalog,pais,categoria,checker):
      return model.sortVideos(me.getValue(mp.get(catalog["countries"],pais)),3)
 
 # Funciones de consulta sobre el catálogo}
+def trendingVideosTime(catalog, pais, checker):
+    tracemalloc.start()
+    delta_time = -1.0
+    delta_memory = -1.0
+    # toma de tiempo y memoria al inicio del proceso
+    start_time = getTime()
+    start_memory = getMemory()
+
+    result = trendingVideos(catalog,pais,checker)
+
+    stop_memory = getMemory()
+    stop_time = getTime()
+    tracemalloc.stop()
+
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    return result, delta_time, delta_memory
+    
+    
+    stop_time = getTime()
+    stop_memory = getMemory()
+    # finaliza el proceso para medir memoria
+    tracemalloc.stop()
+    # calculando la diferencia de tiempo y memoria
+    delta_time = stop_time - start_time
+    delta_memory = deltaMemory(start_memory, stop_memory)
+    return result, delta_time, delta_memory
+
+
 def trendingVideos(catalog, pais,checker):
     return model.trendingdays(catalog,pais,checker)
+
 def tagfiltering(lt, tag):
     
     return model.tagfilter(lt,tag)

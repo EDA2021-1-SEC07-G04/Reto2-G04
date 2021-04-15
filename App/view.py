@@ -86,33 +86,42 @@ while True:
         pais=input("Introduzca un país a analizar")
         categoriaa=input("Introduzca una categoría a analizar")
         categoriaa=" "+categoriaa
-        resultado=controller.videoSort(catalog,pais,categoriaa,2)
+        resultado=controller.videoSortTime(catalog,pais,categoriaa,2)
         for i in range(0,tamaño):
-            x=resultado["elements"][i]
+            x=resultado[0]["elements"][i]
             print("El video "+x["title"]+"del canal "+x["channel_title"]+" publicado el "+x["publish_time"]+" siendo trending el "+x["trending_date"]+" tiene la siguiente cantidad de likes,dislikes y visitas"+x["likes"]+","+x["dislikes"]+","+x["views"])
-            
+        print("Tiempo [ms]: ", resultado[1], "  ||  ",
+              "Memoria [kB]: ", resultado[2])
+
     elif int(inputs[0]) == 3:
       pais=input("seleccione un país a analizar")
-      countryTendency=controller.trendingVideos(catalog,pais,2)
-      print("el video mas trending de "+pais+" fue "+str(countryTendency[0])+" con "+str(countryTendency[1])+" dias.")
+      countryTendency=controller.trendingVideosTime(catalog,pais,2)
+      print("el video mas trending de "+pais+" fue "+str(countryTendency[0][0])+" con "+str(countryTendency[0][1])+" dias.")
+      print("Tiempo [ms]: ", countryTendency[1], "  ||  ",
+            "Memoria [kB]: ", countryTendency[2])
+
     elif int(inputs[0]) == 4:
         category_name = input("Indique la categoría del video de mayor tendencia.")
         category_name=" "+category_name
-        categoryTendency=controller.trendingVideos(catalog,category_name,6)
-        print("el video mas trending de la categoría "+category_name+" fue "+str(categoryTendency[0])+" con "+str(categoryTendency[1])+" dias.")
+        categoryTendency=controller.trendingVideosTime(catalog,category_name,6)
+        print("el video mas trending de la categoría "+category_name+" fue "+str(categoryTendency[0][0])+" con "+str(categoryTendency[0][1])+" dias.")
+        print("Tiempo [ms]: ", categoryTendency[1], "  ||  ",
+              "Memoria [kB]: ", categoryTendency[2])
 
     elif int(inputs[0]) == 5:
         tamaño=int(input("Indique el tamaño de la muestra a analizar"))
         pais=input("Introduzca un país a analizar")
         tagrequest=input("Introduzca un tag a revisar")
-        result2=controller.videoSort(catalog,pais,None,3)
-        filtered=controller.tagfiltering(result2,tagrequest)
+        result2=controller.videoSortTime(catalog,pais,None,3)
+        filtered=controller.tagfiltering(result2[0],tagrequest)
         for i in range(0,tamaño):
           try:  
            y=filtered["videos"]["elements"][i]
            print(y["title"]+" del canal "+y["channel_title"]+" publicado el" +y["publish_time"]+" con la siguiented cantidad  de likes,dislikes y views"+y["likes"]+","+y["dislikes"]+","+y["views"]+" posee los siguientes tags"+y["tags"])
           except:
               break
+        print("Tiempo [ms]: ", result2[1], "  ||  ",
+              "Memoria [kB]: ", result2[2])
         
     else:
         sys.exit(0)
